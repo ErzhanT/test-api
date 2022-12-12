@@ -23,9 +23,20 @@ const uploadFile = multer({
 	limits: { fileSize: 5 * 1024 * 1024 },
 	fileFilter(req, file, callback) {
 		const extension: boolean =
-			['.png', '.jpg', '.jpeg'].indexOf(path.extname(file.originalname).toLowerCase()) >= 0;
-		const mimeType: boolean = ['image/png', 'image/jpg', 'image/jpeg'].indexOf(file.mimetype) >= 0;
-
+			['.png', '.jpg', '.jpeg', '.pdf', '.docx', '.gif'].indexOf(
+				path.extname(file.originalname).toLowerCase(),
+			) >= 0;
+		console.log('extension: ', extension);
+		const mimeType: boolean =
+			[
+				'image/png',
+				'image/jpg',
+				'image/jpeg',
+				'application/pdf',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				'image/gif',
+			].indexOf(file.mimetype) >= 0;
+		console.log('mimeType: ', mimeType);
 		if (extension && mimeType) {
 			return callback(null, true);
 		}

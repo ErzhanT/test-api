@@ -90,7 +90,6 @@ export class FilesController extends BaseController implements IFilesController 
 			this.loggerService.error('file not found');
 			throw next(new HttpError(404, 'error: file does not exist'));
 		}
-
 		await fs.access(file.path, fs.constants.F_OK | fs.constants.W_OK, async (err) => {
 			if (err) {
 				throw new Error('file not found');
@@ -131,7 +130,6 @@ export class FilesController extends BaseController implements IFilesController 
 
 	async update(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const file = await this.fileService.findOne(+req.params.id);
-		console.log(file);
 		if (!file) {
 			this.loggerService.error('file not found');
 			throw new HttpError(404, 'error: file does not found');
@@ -150,7 +148,7 @@ export class FilesController extends BaseController implements IFilesController 
 						this.loggerService.error('Error occurred while trying to remove file');
 						throw new HttpError(400, `error: Error occurred while trying to remove file`);
 					} else {
-						this.loggerService.log(`removed!`);
+						this.loggerService.log(`updated!`);
 					}
 				});
 			}
