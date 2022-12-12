@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { NextFunction, Request, Response } from 'express';
 import 'reflect-metadata';
-// import { parse } from 'node:querystring';
 
 import { TYPES } from '../types';
 import { FilesService } from './files.service';
@@ -68,7 +67,7 @@ export class FilesController extends BaseController implements IFilesController 
 		const uploadedFile = uploadResult.file;
 		if (!uploadedFile) {
 			this.loggerService.error('file not uploaded');
-			return next(new HttpError(404, 'error: file does not exist'));
+			throw new HttpError(404, 'error: file does not exist');
 		}
 
 		await this.fileService.upload({ ...uploadedFile });
@@ -123,7 +122,7 @@ export class FilesController extends BaseController implements IFilesController 
 		const file = await this.fileService.findOne(+params.id);
 		if (!file) {
 			this.loggerService.error('file not found');
-			return next(new HttpError(404, 'error: file does not found'));
+			throw new HttpError(404, 'error: file does not found');
 		}
 		return res.download(file.path, file.originalname);
 	}
